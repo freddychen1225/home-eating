@@ -136,19 +136,27 @@
                 query = `附近 4顆星 ${food}`;
             }
 
+            // 更新畫面上顯示的文字
             status.innerText = `命運決定：${food}！`;
-            const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
 
-            // 3. 智慧判斷：手機直接轉跳，電腦開新分頁
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // 3. 彈窗確認 (加入延遲以確保文字先更新)
+            setTimeout(() => {
+                if (confirm(`命運決定吃：${food}\n要現在出發嗎？`)) {
+                    const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
 
-            if (isMobile) {
-                // 手機版：使用 location.href 強制喚起 App
-                window.location.href = mapUrl;
-            } else {
-                // 電腦版：使用 window.open 開新分頁
-                window.open(mapUrl, '_blank');
-            }
+                    // 4. 智慧判斷：手機直接轉跳，電腦開新分頁
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+                    if (isMobile) {
+                        window.location.href = mapUrl;
+                    } else {
+                        window.open(mapUrl, '_blank');
+                    }
+                } else {
+                    // 按下取消，甚麼都不做，停留在頁面上
+                    // 使用者可以再按一次「決落去」重抽
+                }
+            }, 100);
         }
     </script>
 </body>
