@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>私房美食雷達</title>
     <style>
-        /* 修正手機版面跑版問題 */
         * { box-sizing: border-box; }
 
         :root {
-            --primary-color: #2d3436; /* 極簡黑灰 */
-            --accent-meal: #0984e3;   /* 正餐藍 */
-            --accent-tea: #e17055;    /* 下午茶橘 */
+            --primary-color: #2d3436;
+            --accent-meal: #0984e3;
+            --accent-tea: #e17055;
             --bg-color: #dfe6e9;
         }
 
@@ -32,7 +31,6 @@
         h1 { font-size: 2rem; margin-bottom: 10px; letter-spacing: 2px; }
         .subtitle { color: #636e72; font-size: 1rem; margin-bottom: 40px; }
 
-        /* 切換開關 (Toggle) */
         .switch-container {
             display: flex;
             background: white;
@@ -45,70 +43,27 @@
         }
 
         .mode-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #b2bec3;
-            cursor: pointer;
-            border-radius: 40px;
-            transition: all 0.3s;
+            flex: 1; border: none; background: transparent; padding: 15px;
+            font-size: 1.1rem; font-weight: bold; color: #b2bec3; cursor: pointer;
+            border-radius: 40px; transition: all 0.3s;
         }
 
-        /* 激活狀態 */
         .mode-btn.active-meal { background-color: var(--accent-meal); color: white; box-shadow: 0 2px 10px rgba(9, 132, 227, 0.4); }
         .mode-btn.active-tea { background-color: var(--accent-tea); color: white; box-shadow: 0 2px 10px rgba(225, 112, 85, 0.4); }
 
-        /* 巨大命運按鈕 */
         .destiny-btn {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            border: 8px solid white;
+            width: 220px; height: 220px; border-radius: 50%; border: 8px solid white;
             background: linear-gradient(145deg, #ffffff, #e6e6e6);
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            cursor: pointer;
-            box-shadow: 20px 20px 60px #bec3c9, -20px -20px 60px #ffffff; /* 擬態風格 Neumorphism */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
+            font-size: 1.5rem; font-weight: bold; color: var(--primary-color); cursor: pointer;
+            box-shadow: 20px 20px 60px #bec3c9, -20px -20px 60px #ffffff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            outline: none; -webkit-tap-highlight-color: transparent;
         }
-
-        .destiny-btn:active {
-            transform: scale(0.95);
-            box-shadow: inset 20px 20px 60px #bec3c9, inset -20px -20px 60px #ffffff;
-        }
+        .destiny-btn:active { transform: scale(0.95); box-shadow: inset 20px 20px 60px #bec3c9, inset -20px -20px 60px #ffffff; }
 
         .destiny-icon { font-size: 3rem; margin-bottom: 10px; }
-
-        /* 狀態提示文字 */
-        .status-text {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #636e72;
-            height: 20px; /* 預留高度避免跳動 */
-        }
-
-        .footer {
-            position: fixed; bottom: 20px;
-            font-size: 0.8rem; color: #b2bec3;
-        }
-
-        /* 動畫效果 */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .processing { animation: pulse 0.5s infinite; }
+        .status-text { margin-top: 30px; font-size: 0.9rem; color: #636e72; height: 20px; }
+        .footer { position: fixed; bottom: 20px; font-size: 0.8rem; color: #b2bec3; }
 
     </style>
 </head>
@@ -117,13 +72,11 @@
     <h1>私房美食雷達</h1>
     <div class="subtitle">House Special Edition</div>
 
-    <!-- 模式切換 -->
     <div class="switch-container">
-        <button class="mode-btn active-meal" id="btn-meal" onclick="switchMode('meal')">正餐 (200內)</button>
+        <button class="mode-btn active-meal" id="btn-meal" onclick="switchMode('meal')">正餐 (平價)</button>
         <button class="mode-btn" id="btn-drink" onclick="switchMode('tea')">隨意下午茶</button>
     </div>
 
-    <!-- 命運按鈕 -->
     <button class="destiny-btn" id="destiny-btn" onclick="spinDestiny()">
         <span class="destiny-icon" id="btn-icon">🍱</span>
         <span id="btn-text">幫我選</span>
@@ -134,7 +87,6 @@
     <div class="footer">Freddy & Gemini 3 Pro Private Build</div>
 
     <script>
-        // --- 私房資料庫 (不含隨機情境，純分類) ---
         const mealCategories = [
             "便當", "牛肉麵", "水餃", "鍋貼", "炒飯", "咖哩", 
             "日式蓋飯", "義大利麵", "小火鍋", "乾麵", "滷肉飯", 
@@ -159,12 +111,12 @@
                 btnMeal.className = 'mode-btn active-meal';
                 btnTea.className = 'mode-btn';
                 btnIcon.innerText = "🍱";
-                document.getElementById('status-text').innerText = "搜尋條件：4.0⭐ + 200元內";
+                document.getElementById('status-text').innerText = "搜尋條件：4.0⭐ + 平價美食";
             } else {
                 btnMeal.className = 'mode-btn';
                 btnTea.className = 'mode-btn active-tea';
                 btnIcon.innerText = "🍰";
-                document.getElementById('status-text').innerText = "搜尋條件：4.0⭐ + 不限金額";
+                document.getElementById('status-text').innerText = "搜尋條件：4.0⭐ + 下午茶";
             }
         }
 
@@ -172,42 +124,24 @@
             const btn = document.getElementById('destiny-btn');
             const status = document.getElementById('status-text');
             
-            // 視覺效果：開始運算
-            btn.classList.add('processing');
-            status.innerText = "正在掃描附近美食...";
+            // 1. 決定分類
+            let list = currentMode === 'meal' ? mealCategories : teaCategories;
+            let food = list[Math.floor(Math.random() * list.length)];
             
-            // 隨機延遲 0.8秒 增加儀式感
-            setTimeout(() => {
-                btn.classList.remove('processing');
-                
-                // 1. 決定分類
-                let list = currentMode === 'meal' ? mealCategories : teaCategories;
-                let food = list[Math.floor(Math.random() * list.length)];
-                
-                // 2. 組合魔術關鍵字 (Magic Keywords)
-                // 關鍵：加上 "附近" 觸發地圖定位，加上 "4顆星以上" 觸發評分篩選
-                let query = "";
-                
-                if (currentMode === 'meal') {
-                    // 正餐：加上 200元限制 (平價 / 200元內)
-                    // Google 搜尋技巧：有時候 "平價" 比 "200元" 更準
-                    query = `附近 評分4.0以上 200元內 ${food}`;
-                } else {
-                    // 下午茶：不限金額
-                    query = `附近 評分4.0以上 ${food}`;
-                }
+            // 2. 組合關鍵字 (修正版)
+            // 改用「平價」取代「200元內」，提高命中率
+            let query = "";
+            if (currentMode === 'meal') {
+                query = `附近 4顆星 平價 ${food}`;
+            } else {
+                query = `附近 4顆星 ${food}`;
+            }
 
-                status.innerText = `命運決定：${food}！`;
+            status.innerText = `命運決定：${food}！`;
 
-                // 3. 執行跳轉
-                setTimeout(() => {
-                     const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
-                     window.open(mapUrl, '_blank');
-                     // 重置文字
-                     setTimeout(() => { status.innerText = "準備就緒"; }, 2000);
-                }, 500);
-
-            }, 800);
+            // 3. 立即跳轉 (移除延遲，解決手機無法喚起 App 的問題)
+            // 使用 location.href 取代 window.open，強制手機優先嘗試開啟 App
+            window.location.href = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
         }
     </script>
 </body>
