@@ -128,8 +128,7 @@
             let list = currentMode === 'meal' ? mealCategories : teaCategories;
             let food = list[Math.floor(Math.random() * list.length)];
             
-            // 2. 組合關鍵字 (修正版)
-            // 改用「平價」取代「200元內」，提高命中率
+            // 2. 組合關鍵字
             let query = "";
             if (currentMode === 'meal') {
                 query = `附近 4顆星 平價 ${food}`;
@@ -138,10 +137,18 @@
             }
 
             status.innerText = `命運決定：${food}！`;
+            const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
 
-            // 3. 立即跳轉 (移除延遲，解決手機無法喚起 App 的問題)
-            // 使用 location.href 取代 window.open，強制手機優先嘗試開啟 App
-            window.location.href = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
+            // 3. 智慧判斷：手機直接轉跳，電腦開新分頁
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // 手機版：使用 location.href 強制喚起 App
+                window.location.href = mapUrl;
+            } else {
+                // 電腦版：使用 window.open 開新分頁
+                window.open(mapUrl, '_blank');
+            }
         }
     </script>
 </body>
